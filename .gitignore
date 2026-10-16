@@ -9,6 +9,9 @@ node_modules/
 config.json
 
 # database stuff
-
-
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+campaigns-database.sqlite
+databases/
 # json stuff
