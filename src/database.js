@@ -59,7 +59,6 @@ db.prepare(`CREATE TABLE IF NOT EXISTS sessions (
     dungeon_master TEXT NOT NULL,
     session_number INTEGER NOT NULL,
     unix_date_time INTEGER NOT NULL,
-    attendees TEXT,
     FOREIGN KEY (campaign_id) REFERENCES events(id)
     )
 `).run();

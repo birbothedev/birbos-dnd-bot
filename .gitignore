@@ -15,3 +15,5 @@ config.json
 campaigns-database.sqlite
 databases/
 # json stuff
+databases/campaigns-database.sqlite-shm
+databases/campaigns-database.sqlite-wal
