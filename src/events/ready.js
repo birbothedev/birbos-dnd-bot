@@ -7,6 +7,7 @@ import {
     AttachmentBuilder
 } from 'discord.js';
 import { WELCOME_CHANNEL_ID} from "../../src/data/Globals.js";
+import { db } from "../database.js";
 
 const banner = new AttachmentBuilder(
     './src/assets/banner.png',
@@ -85,6 +86,9 @@ export default {
     name: Events.ClientReady,
     once: true,
     async execute(client) {
+        console.log(`Logged in as ${client.user.tag}`);
+        console.log("DB FILE:", db.name);
+        
         try {
             const channel = await client.channels.fetch(WELCOME_CHANNEL_ID);
 

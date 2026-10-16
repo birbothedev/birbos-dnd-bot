@@ -9,7 +9,7 @@ export default {
     customId: 'campaign_dashboard', 
     type: 'button',
     async execute(interaction) {
-        const eventId = interaction.customId.split(':')[1];
+        const eventId = interaction.customId;
         const userId = interaction.user.id;
         const channel = interaction.channel
 
@@ -20,10 +20,6 @@ export default {
                     components: [campaignsButtons],
                     flags: MessageFlags.Ephemeral
                 });
-                // await channel.send({
-                //     components: [container],
-                //     flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral]
-                // });
         } catch (err) {
             console.error('Error:', err);
             await interaction.reply({
