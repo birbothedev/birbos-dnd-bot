@@ -1,6 +1,8 @@
 
 import { MessageFlags } from "discord.js";
 import { DM_USER_ID } from "../../../data/Globals.js";
+import { parseUserDateAndTime } from "../../../data/HelperFunctions.js";
+import { createSessionScheduleComponent } from "../../components/session-schedule/session_schedule_component.js";
 
 export default {
     customId: 'session_schedule_modal', 
@@ -23,9 +25,11 @@ export default {
             try {      
 
                 const scheduled_date_message = parseUserDateAndTime(dateInput, timeInput);
+                const component = createSessionScheduleComponent(campaignSelect, scheduled_date_message);
 
                 await selectedChannel.send({
-                    content: scheduled_date_message
+                    components: [component],
+                    flags: MessageFlags.IsComponentsV2
                 });
 
                 await interaction.editReply({
@@ -45,11 +49,3 @@ export default {
         }
     }
 };
-
-function parseUserDateAndTime(date, time){
-    const jsDate = new Date(`${date}T${time}`);
-
-    const unixDate = Math.floor(jsDate.getTime() / 1000);
-
-    return `The event is scheduled for: <t:${unixDate}:F>`;
-}

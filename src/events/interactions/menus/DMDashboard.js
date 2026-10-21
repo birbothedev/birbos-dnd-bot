@@ -4,9 +4,10 @@ import {
     ButtonBuilder,
     ButtonStyle
 } from 'discord.js';
+import { ACCENT_COLOR } from '../../../data/Globals.js'
 
 export const campaignsEmbed = new EmbedBuilder()
-    .setColor('#750D02')
+    .setColor(ACCENT_COLOR)
     .setTitle('📜 Campaign Management')
     .setDescription(
         'Welcome to campaign management!\n\n' +

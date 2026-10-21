@@ -4,10 +4,11 @@ import {
     ButtonBuilder,
     ButtonStyle
 } from 'discord.js';
+import { ACCENT_COLOR } from '../../../data/Globals.js'
 
 
 export const adventurerEmbed = new EmbedBuilder()
-    .setColor('#750D02')
+    .setColor(ACCENT_COLOR)
     .setTitle("⚔️ Adventurer's Toolkit")
     .setDescription(
         `Welcome to the adventurer's toolkit!\n\n` +
@@ -36,8 +37,8 @@ export const adventurerButtons = new ActionRowBuilder()
             .setStyle(ButtonStyle.Primary),
 
         new ButtonBuilder()
-            .setCustomId('add_or_remove_character')
-            .setLabel('Add or Remove Characters')
+            .setCustomId('add_character')
+            .setLabel('Add a Character')
             .setEmoji('🗺️')
             .setStyle(ButtonStyle.Primary),
     );

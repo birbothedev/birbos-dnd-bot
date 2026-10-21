@@ -6,7 +6,7 @@ import {
     ButtonStyle,
     AttachmentBuilder
 } from 'discord.js';
-import { WELCOME_CHANNEL_ID} from "../../src/data/Globals.js";
+import { WELCOME_CHANNEL_ID, ACCENT_COLOR} from "../../src/data/Globals.js";
 import { db } from "../database.js";
 
 const banner = new AttachmentBuilder(
@@ -19,7 +19,7 @@ const icon = new AttachmentBuilder(
 )
 
 const welcomeEmbed = new EmbedBuilder()
-    .setColor('#750D02')
+    .setColor(ACCENT_COLOR)
     .setAuthor({
         name: "BIRBO'S DND BOT",
         iconURL: 'attachment://icon.png'

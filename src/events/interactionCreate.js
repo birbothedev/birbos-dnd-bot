@@ -70,7 +70,6 @@ export default {
 };
 
 /* -------- helper -------- */
-
 async function loadHandlers(folder) {
     const folderPath = path.join(__dirname, 'interactions', folder);
 
@@ -79,14 +78,38 @@ async function loadHandlers(folder) {
         return [];
     }
 
-    const files = fs.readdirSync(folderPath).filter(f => f.endsWith('.js'));
+    // Find JS files in this folder and all subfolders
+    function getFiles(directory) {
+        const entries = fs.readdirSync(directory, {
+            withFileTypes: true
+        });
+
+        return entries.flatMap(entry => {
+            const fullPath = path.join(directory, entry.name);
+
+            if (entry.isDirectory()) {
+                return getFiles(fullPath);
+            }
+
+            if (entry.isFile() && entry.name.endsWith('.js')) {
+                return [fullPath];
+            }
+
+            return [];
+        });
+    }
+
+    const files = getFiles(folderPath);
 
     return Promise.all(
         files.map(async file => {
-            const mod = await import(
-                pathToFileURL(path.join(folderPath, file)).href
-            );
+            const mod = await import(pathToFileURL(file).href);
+
+            if (!mod.default?.customId || typeof mod.default.execute !== 'function') {
+                return null;
+            }
+
             return mod.default;
         })
-    );
+    ).then(handlers => handlers.filter(Boolean));
 }

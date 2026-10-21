@@ -56,7 +56,7 @@ db.prepare(`CREATE TABLE IF NOT EXISTS np_characters (
 db.prepare(`CREATE TABLE IF NOT EXISTS sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     campaign_id INTEGER NOT NULL,
-    dungeon_master TEXT NOT NULL,
+    attending_character TEXT,
     session_number INTEGER NOT NULL,
     unix_date_time INTEGER NOT NULL,
     FOREIGN KEY (campaign_id) REFERENCES events(id)

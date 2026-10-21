@@ -7,13 +7,13 @@ export function createSessionSchedulerModal(){
         .setCustomId(`session_schedule_modal`)
         .setTitle('🗓️ Session Scheduler');
     
-    // select campagin
+    // select campagin from db options
     const selectCampagin = new StringSelectMenuBuilder()
     .setCustomId('select_campaign_for_scheduling')
     .setPlaceholder('Select')
     .addOptions(
-        new StringSelectMenuOptionBuilder().setLabel('✧ Campaign 1').setValue('1'),
-        new StringSelectMenuOptionBuilder().setLabel('✦ Campaign 2').setValue('2'),
+        new StringSelectMenuOptionBuilder().setLabel('✧ Campaign 1').setValue('Campaign 1'),
+        new StringSelectMenuOptionBuilder().setLabel('✦ Campaign 2').setValue('Campaign 2'),
     );
     const selectCampaginLabel = new LabelBuilder()
     .setLabel('Campaign Selector')

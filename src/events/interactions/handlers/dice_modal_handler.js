@@ -1,6 +1,7 @@
 
 import { MessageFlags } from "discord.js";
 import { DM_USER_ID, DICE_CHANNEL_ID } from "../../../data/Globals.js";
+import { roll_dice } from "../../../data/HelperFunctions.js";
 
 export default {
     customId: 'dice_roller_modal', 
@@ -66,17 +67,3 @@ export default {
         }
     }
 };
-
-function roll_dice(character, rolled_dice, die, number_of_dice){
-    const rolls = [];
-    let total = 0;
-
-    for (let i = 0; i < number_of_dice; i++) {
-        const roll = Math.floor(Math.random() * die) + 1;
-        rolls.push(roll);
-        total += roll;
-    }
-    
-    return `🎲 ${character} rolled **${rolled_dice}**: [ ${rolls.join(', ')} ] = **${total}**`;
-
-}
