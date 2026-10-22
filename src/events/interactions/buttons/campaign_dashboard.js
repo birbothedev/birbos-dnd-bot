@@ -1,25 +1,20 @@
 import { MessageFlags } from "discord.js";
-import {
-    campaignsEmbed,
-    campaignsButtons
-    // container
-} from '../menus/DMDashboard.js';
+import { createDMDashboardComponent } from "../../components/dm-kit/dm_home.js";
 
 export default {
     customId: 'campaign_dashboard', 
     type: 'button',
     async execute(interaction) {
-        const eventId = interaction.customId;
-        const userId = interaction.user.id;
-        const channel = interaction.channel
 
         try {
             // reply with a new ephemeral menu here, then use interaction.update to change that ephemeral message client sided
-                await interaction.reply({
-                    embeds: [campaignsEmbed],
-                    components: [campaignsButtons],
-                    flags: MessageFlags.Ephemeral
-                });
+            const component = createDMDashboardComponent();
+
+            await interaction.reply({
+                components: [component],
+                flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral]
+            });
+
         } catch (err) {
             console.error('Error:', err);
             await interaction.reply({

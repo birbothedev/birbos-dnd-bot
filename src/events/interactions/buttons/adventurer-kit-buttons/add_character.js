@@ -5,8 +5,6 @@ export default {
     customId: 'add_character', 
     type: 'button',
     async execute(interaction) {
-        const eventId = interaction.customId;
-        const userId = interaction.user.id;
 
         try {
             await interaction.showModal(createCharacterModal());

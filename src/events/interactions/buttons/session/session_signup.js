@@ -5,8 +5,6 @@ export default {
     customId: 'session_signup_button', 
     type: 'button',
     async execute(interaction) {
-        const eventId = interaction.customId;
-        const userId = interaction.user.id;
 
         // pull campaign and date from db
         const campaign = ""

@@ -60,7 +60,7 @@ export function createSessionSchedulerModal(){
     // select channel
     const roleSelect = new RoleSelectMenuBuilder()
         .setCustomId('selected_role_scheduling')
-        .setPlaceholder('Select a role channel...')
+        .setPlaceholder('Select a role...')
         .setMinValues(1)
         .setMaxValues(1); 
 

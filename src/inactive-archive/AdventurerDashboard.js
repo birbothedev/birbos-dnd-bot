@@ -4,7 +4,7 @@ import {
     ButtonBuilder,
     ButtonStyle
 } from 'discord.js';
-import { ACCENT_COLOR } from '../../../data/Globals.js'
+import { ACCENT_COLOR } from '../data/Globals.js'
 
 
 export const adventurerEmbed = new EmbedBuilder()

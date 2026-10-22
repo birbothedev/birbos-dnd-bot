@@ -1,23 +1,20 @@
 import { MessageFlags } from "discord.js";
-import {
-    adventurerEmbed,
-    adventurerButtons
-} from '../menus/AdventurerDashboard.js';
+import { createAdventurerDashboardComponent } from "../../components/adventurer-kit/adventurer_home.js";
 
 export default {
     customId: 'adventurers_tools', 
     type: 'button',
     async execute(interaction) {
-        const eventId = interaction.customId.split(':')[1];
-        const userId = interaction.user.id;
 
         try {
             // reply with a new ephemeral menu here, then use interaction.update to change that ephemeral message client sided
+            const component = createAdventurerDashboardComponent();
+
             await interaction.reply({
-                embeds: [adventurerEmbed],
-                components: [adventurerButtons],
-                flags: MessageFlags.Ephemeral
+                components: [component],
+                flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral]
             });
+
         } catch (err) {
             console.error('Error:', err);
             await interaction.reply({

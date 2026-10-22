@@ -20,6 +20,7 @@ db.prepare(`
     description TEXT,
     image_url TEXT,
     created_at INTEGER,
+    created_by INTEGER NOT NULL,
     is_active INTEGER DEFAULT 1
     )
 `).run();
@@ -31,10 +32,21 @@ db.prepare(`CREATE TABLE IF NOT EXISTS player_characters (
     user_id TEXT NOT NULL,
     username TEXT NOT NULL,
     character_name TEXT NOT NULL,
-    character_level INTEGER NOT NULL,
+    character_level INTEGER,
     character_class TEXT NOT NULL,
     character_multiclass TEXT,
-    character_race TEXT NOT NULL,
+    character_race TEXT,
+    character_backstory TEXT NOT NULL,
+    strength INTEGER,
+    dexterity INTEGER,
+    constitution INTEGER,
+    intelligence INTEGER,
+    wisdom INTEGER,
+    charisma INTEGER,
+    health_points INTEGER,
+    armor_class INTEGER,
+    speed INTEGER,
+    is_active INTEGER DEFAULT 1, 
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id)
     )
 `).run();

@@ -4,11 +4,11 @@ import {
     ButtonBuilder,
     ButtonStyle
 } from 'discord.js';
-import { ACCENT_COLOR } from '../../../data/Globals.js'
+import { ACCENT_COLOR } from '../data/Globals.js'
 
 export const campaignsEmbed = new EmbedBuilder()
     .setColor(ACCENT_COLOR)
-    .setTitle('📜 Campaign Management')
+    .setTitle('🗓️ Session Registration')
     .setDescription(
         'Welcome to campaign management!\n\n' +
         'Choose an option below to manage your campaign.'
@@ -35,7 +35,7 @@ export const campaignsButtons = new ActionRowBuilder()
 
         new ButtonBuilder()
             .setCustomId('session_scheduler')
-            .setLabel('Session Scheduler')
+            .setLabel('Session Manager')
             .setEmoji('📅')
             .setStyle(ButtonStyle.Primary),
 
