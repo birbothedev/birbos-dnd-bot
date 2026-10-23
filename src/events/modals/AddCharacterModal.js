@@ -60,9 +60,9 @@ export function createCharacterModal(){
         new StringSelectMenuOptionBuilder().setLabel('Wizard').setValue('wizard').setEmoji('🔮')
     );
     const selectClassMenuLabel = new LabelBuilder()
-    .setLabel('Class')
-    .setDescription(`Select your character's main class.`)
-    .setStringSelectMenuComponent(selectClassMenu);
+        .setLabel('Class')
+        .setDescription(`Select your character's main class.`)
+        .setStringSelectMenuComponent(selectClassMenu);
 
     // add race
     const raceInput = new TextInputBuilder()

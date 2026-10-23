@@ -1,6 +1,7 @@
-import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder } from "discord.js";
+import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { getCharactersByUserID } from "../../../data/db-commands/character_db_commands.js";
 
-export function createAdventurerDashboardComponent(){
+export function createAdventurerDashboardComponent(userId, isActive){
     const adventurerDashboardComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
@@ -51,39 +52,39 @@ export function createAdventurerDashboardComponent(){
         new SeparatorBuilder()
     );
 
-    adventurerDashboardComponent.addSectionComponents(
-        new SectionBuilder()
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    `**✏️ Edit Characters**\nEdit a specific character or mark them as inactive.`
-                )
+    const characters = getCharactersByUserID(userId, isActive);
+    if(characters.length >= 1){
+        const options = []
+        for (const char of characters){
+            const op = new StringSelectMenuOptionBuilder()
+                .setLabel(char.character_name)
+                .setValue(`${char.id}`)
+            
+            options.push(op)
+        }
+        const dropdown = new StringSelectMenuBuilder()
+            .setCustomId('character_sheet_dropdown')
+            .setPlaceholder('Select a character...')
+            .addOptions(options)
+        
+        adventurerDashboardComponent.addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+                '### 📝 Character Sheet\nView or Edit a specific character or mark them as inactive.'
             )
-            .setButtonAccessory(
-                new ButtonBuilder()
-                    .setCustomId(`session_cancel_button`)
-                    .setLabel('Edit')
-                    .setStyle(ButtonStyle.Secondary)
-            )
-    );
+        );
 
-    adventurerDashboardComponent.addSeparatorComponents(
-        new SeparatorBuilder()
-    );
-
-    adventurerDashboardComponent.addSectionComponents(
-        new SectionBuilder()
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    `**❌ Delete**\nPermanently remove a character from the database.`
-                )
+        adventurerDashboardComponent.addActionRowComponents(
+            new ActionRowBuilder()
+                .addComponents(dropdown)
+        );
+    } else {
+        adventurerDashboardComponent.addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+                '### 📝 Character Sheet\nPlease add a character before attempting to edit a character sheet.'
             )
-            .setButtonAccessory(
-                new ButtonBuilder()
-                    .setCustomId(`session_attendees_button`)
-                    .setLabel('Delete')
-                    .setStyle(ButtonStyle.Danger)
-            )
-    );
+        );
+    }
+    
 
     adventurerDashboardComponent.addSeparatorComponents(
         new SeparatorBuilder()

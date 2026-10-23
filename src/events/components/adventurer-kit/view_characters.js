@@ -1,19 +1,10 @@
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder } from "discord.js";
 
-export function createSessionScheduleComponent(campaign, date){
-    const sessionScheduleComponent = new ContainerBuilder()
+export function createViewCharactersComponent(activeCharacters, inactiveCharacters){
+    const viewCharactersComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
-                .setContent('## 🗓️ Session Registration')
-        )
-        .addSeparatorComponents(
-            new SeparatorBuilder()
-                .setSpacing(SeparatorSpacingSize.Small)
-            .setDivider(true)
-        )
-        .addTextDisplayComponents(
-            new TextDisplayBuilder()
-                .setContent(`**${campaign}** is scheduled for ${date}`)
+                .setContent('## Your Characters')
         )
         .addSeparatorComponents(
             new SeparatorBuilder()
@@ -21,62 +12,49 @@ export function createSessionScheduleComponent(campaign, date){
             .setDivider(true)
         )
 
-    sessionScheduleComponent.addSectionComponents(
+
+    let activeCharactersText =`### Active Characters\n\n`;
+    for (const char of activeCharacters){
+        activeCharactersText += `**${char.character_name}**: Level ${char.character_level} ${char.character_race} ${char.character_class}\n`
+    };
+    viewCharactersComponent.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    `**✅ Sign Up**\nRegister your character to attend the session.`
-                )
+                new TextDisplayBuilder().setContent(activeCharactersText)
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`session_signup_button`)
-                    .setLabel('Sign Up')
-                    .setStyle(ButtonStyle.Primary)
+                    .setCustomId(`disable_active_characters`)
+                    .setLabel('Edit')
+                    .setStyle(ButtonStyle.Secondary)
             )
     );
 
-    sessionScheduleComponent.addSeparatorComponents(
+    viewCharactersComponent.addSeparatorComponents(
         new SeparatorBuilder()
     );
 
-    sessionScheduleComponent.addSectionComponents(
+    let inActiveCharactersText =`### Inactive Characters\n\n`;
+    for (const char of inactiveCharacters){
+        inActiveCharactersText += `**${char.character_name}**: Level ${char.character_level} ${char.character_race} ${char.character_class}\n`
+    };
+
+    viewCharactersComponent.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    `**❌ Cancel**\nRemove your character's registration from the session.`
-                )
+                new TextDisplayBuilder().setContent(inActiveCharactersText)
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`session_cancel_button`)
-                    .setLabel('Cancel')
-                    .setStyle(ButtonStyle.Danger)
+                    .setCustomId(`reactivate_inactive_characters`)
+                    .setLabel('Edit')
+                    .setStyle(ButtonStyle.Secondary)
             )
     );
 
-    sessionScheduleComponent.addSeparatorComponents(
+    viewCharactersComponent.addSeparatorComponents(
         new SeparatorBuilder()
     );
 
-    sessionScheduleComponent.addSectionComponents(
-        new SectionBuilder()
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    `**👀 View**\nSee all characters that will be attending the session.`
-                )
-            )
-            .setButtonAccessory(
-                new ButtonBuilder()
-                    .setCustomId(`session_attendees_button`)
-                    .setLabel('View Characters')
-                    .setStyle(ButtonStyle.Primary)
-            )
-    );
-
-    sessionScheduleComponent.addSeparatorComponents(
-        new SeparatorBuilder()
-    );
-
-    return sessionScheduleComponent;
+    return viewCharactersComponent;
 }

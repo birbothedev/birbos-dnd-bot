@@ -45,17 +45,29 @@ export function createSessionSchedulerModal(){
         .setTextInputComponent(timeInput);
     
     // select channel
-    const channelSelect = new ChannelSelectMenuBuilder()
-        .setCustomId('selected_schedule_channel')
-        .setPlaceholder('Select a text channel...')
-        .setMinValues(1)
-        .setMaxValues(1)
-        .setChannelTypes([ChannelType.GuildText]); 
+    // const channelSelect = new ChannelSelectMenuBuilder()
+    //     .setCustomId('selected_schedule_channel')
+    //     .setPlaceholder('Select a text channel...')
+    //     .setMinValues(1)
+    //     .setMaxValues(1)
+    //     .setChannelTypes([ChannelType.GuildText]); 
 
-    const channelSelectLabel = new LabelBuilder()
-        .setLabel('Target Channel')
-        .setDescription('Choose where the bot should post the session sign-ups.')
-        .setChannelSelectMenuComponent(channelSelect);
+    // const channelSelectLabel = new LabelBuilder()
+    //     .setLabel('Target Channel')
+    //     .setDescription('Choose where the bot should post the session sign-ups.')
+    //     .setChannelSelectMenuComponent(channelSelect);
+
+    // time input 
+    const descriptionInput = new TextInputBuilder()
+        .setCustomId('session_description_input')
+        .setStyle(TextInputStyle.Short)
+        .setPlaceholder(`Ex: "Origins", "Cold Open with Mateo", etc.`)
+        .setMaxLength(100)
+        .setMinLength(1)
+        .setRequired(true);
+    const descriptionInputLabel = new LabelBuilder()
+        .setLabel(`Optionally give a description of the session.`)
+        .setTextInputComponent(descriptionInput);
     
     // select channel
     const roleSelect = new RoleSelectMenuBuilder()
@@ -69,7 +81,7 @@ export function createSessionSchedulerModal(){
         .setDescription('Choose the roles that have permission to sign-up for this session.')
         .setRoleSelectMenuComponent(roleSelect);
 
-    sessionSchedulerModal.addLabelComponents(selectCampaginLabel, dateInputLabel, timeInputLabel, channelSelectLabel, roleSelectLabel);
+    sessionSchedulerModal.addLabelComponents(selectCampaginLabel, dateInputLabel, timeInputLabel, descriptionInputLabel, roleSelectLabel);
 
     return sessionSchedulerModal;
 }

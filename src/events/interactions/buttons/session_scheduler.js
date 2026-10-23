@@ -5,9 +5,6 @@ export default {
     customId: 'session_scheduler', 
     type: 'button',
     async execute(interaction) {
-        const eventId = interaction.customId;
-        const userId = interaction.user.id;
-
         try {
             await interaction.showModal(createSessionSchedulerModal());
         } catch (err) {

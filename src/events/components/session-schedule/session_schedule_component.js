@@ -1,6 +1,6 @@
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder } from "discord.js";
 
-export function createSessionScheduleComponent(campaign, date){
+export function createSessionScheduleComponent(campaign, date, description){
     const sessionScheduleComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
@@ -14,6 +14,10 @@ export function createSessionScheduleComponent(campaign, date){
         .addTextDisplayComponents(
             new TextDisplayBuilder()
                 .setContent(`**${campaign}** is scheduled for ${date}`)
+        )
+        .addTextDisplayComponents(
+            new TextDisplayBuilder()
+                .setContent(`${description}`)
         )
         .addSeparatorComponents(
             new SeparatorBuilder()

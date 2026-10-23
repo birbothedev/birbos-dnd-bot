@@ -60,6 +60,7 @@ db.prepare(`CREATE TABLE IF NOT EXISTS np_characters (
     character_class TEXT NOT NULL,
     character_multiclass TEXT,
     character_race TEXT NOT NULL,
+    is_active INTEGER DEFAULT 1, 
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id)
     )
 `).run();

@@ -12,7 +12,7 @@ export default {
 
         //TODO add checks to make sure user not already signed up
         try {
-            const component = createSessionRegistrationComponent(true, campaign, date);
+            const component = createSessionRegistrationComponent(false, campaign, date);
 
             await interaction.reply({
                 components: [component],

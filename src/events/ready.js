@@ -25,12 +25,8 @@ const welcomeEmbed = new EmbedBuilder()
     })
     .setTitle(`⚜ THE DUNGEON AND DRAGONS PLANNER ⚜`)
     .setDescription(
-        'Welcome, Dungeon Master and players.\n\n' +
-        '༺══════════════════════════༻\n\n' +
-        '📜 **CAMPAIGN MANAGEMENT**\n' +
-        'Create a new campaign and manage it.\n' +
-        'Send out next session signups.\n\n' +
-        '༺══════════════════════════༻\n'
+        '\n' +
+        '༺════════════════════༻\n'
     )
     .setImage('attachment://banner.png')
     .addFields(
@@ -40,17 +36,12 @@ const welcomeEmbed = new EmbedBuilder()
             inline: false
         },
         {
-            name: '༺══════════════════════════༻',
-            value: '',
+            name: '📜 Campaign Manager',
+            value: `Manage or Schedule your active campaigns`,
             inline: false
         },
         {
-            name: '📜 Campaign Records',
-            value: `Keep track of your campaign's lore and chronicles.`,
-            inline: false
-        },
-        {
-            name: '༺══════════════════════════༻',
+            name: '༺════════════════════༻',
             value: '',
             inline: false
         }

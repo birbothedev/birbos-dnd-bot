@@ -1,6 +1,6 @@
 import { db } from '../../database.js';
 
-export async function addCharacterToDB(campaignId, userId, username, characterName, characterClass, characterRace, characterBackstory){
+export function addCharacterToDB(campaignId, userId, username, characterName, characterClass, characterRace, characterBackstory){
     const row = db.prepare(`
             INSERT INTO player_characters
             (campaign_id, user_id, username, character_name, character_class, character_race, character_backstory)
@@ -10,3 +10,42 @@ export async function addCharacterToDB(campaignId, userId, username, characterNa
             );
     return row.changes;
 }  
+
+export function deleteCharacterFromDB(characterId, userId){
+    const row = db.prepare(`
+            DELETE FROM player_characters
+            WHERE id = ? and user_id = ?
+        `).run(characterId, userId);
+    
+    return row.changes;
+}
+
+export function getCharactersByUserID(userId){
+    const characters = db.prepare(`
+        SELECT *
+        FROM player_characters
+        WHERE user_id = ?
+    `).all(userId);
+
+    return characters;
+}
+
+export function getActiveCharactersByUserID(userId, isActive){
+    const characters = db.prepare(`
+        SELECT *
+        FROM player_characters
+        WHERE user_id = ? and is_active = ?
+    `).all(userId, isActive);
+
+    return characters;
+}
+
+export function getCharacterByCharacterID(characterId, userId){
+    const characters = db.prepare(`
+        SELECT *
+        FROM player_characters
+        WHERE id = ? and user_id = ?
+    `).get(characterId, userId);
+
+    return characters;
+}

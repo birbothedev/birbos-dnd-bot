@@ -58,6 +58,11 @@ export default {
                 
             } catch (error) {
                 console.error("Modal submit error: ", error);
+
+                await interaction.editReply({
+                    content: '❌ Something went wrong. Please wait a moment and try again!',
+                    ephemeral: true
+                });
             }
 
         } else {

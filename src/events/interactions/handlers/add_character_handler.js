@@ -13,23 +13,23 @@ export default {
         const raceInput = interaction.fields.getTextInputValue('race_input');
         const backstoryInput = interaction.fields.getTextInputValue('character_backstory_input');
 
-        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+        const capitalizedClass = classSelect[0].toUpperCase() + classSelect.slice(1);
 
             try {      
 
-                await addCharacterToDB(campaignSelect,userId,username,nameInput,classSelect,raceInput,backstoryInput)
+                addCharacterToDB(campaignSelect,userId,username,nameInput,capitalizedClass,raceInput,backstoryInput)
 
-                await interaction.editReply({
-                    content: `✅ Successfully added ${nameInput} to the database!`,
-                    ephemeral: true
+                await interaction.reply({
+                    content: `✅ Successfully added ${nameInput} to the database! Dismiss the interaction and reload the toolkit to see the changes reflected.`,
+                    flags: MessageFlags.Ephemeral
                 });
                 
             } catch (error) {
                 console.error("Modal submit error: ", error);
 
-                await interaction.editReply({
+                await interaction.reply({
                     content: '❌ Something went wrong. Please wait a moment and try again!',
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             }
     }

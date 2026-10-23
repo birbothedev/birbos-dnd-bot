@@ -1,12 +1,12 @@
 import { ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
 
-export function createDiceRollerModal(){
+export function createCharacterDiceRollerModal(characterName, characterId){
     const diceRollerModal = new ModalBuilder()
-        .setCustomId(`character_dice_roller_modal`)
-        .setTitle('🎲 Dice Roller');
+        .setCustomId(`character_dice_roller_modal:${characterId}`)
+        .setTitle(`🎲 ${characterName} Dice Roller`);
 
     const selectAbilityMenu = new StringSelectMenuBuilder()
-        .setCustomId('character_select_dice_input')
+        .setCustomId('character_select_ability_input')
         .setPlaceholder('Select')
         .addOptions(
             new StringSelectMenuOptionBuilder().setLabel('STR').setValue('str'),
@@ -17,8 +17,8 @@ export function createDiceRollerModal(){
             new StringSelectMenuOptionBuilder().setLabel('CHA').setValue('cha')
         );
     const selectAbilityMenuLabel = new LabelBuilder()
-    .setLabel('Dice Selector')
-    .setDescription('Please choose the die to roll.')
+    .setLabel('Ability Selector')
+    .setDescription('Please choose the ability check to roll.')
     .setStringSelectMenuComponent(selectAbilityMenu);
 
     const selectProficiencyLabel = new LabelBuilder()

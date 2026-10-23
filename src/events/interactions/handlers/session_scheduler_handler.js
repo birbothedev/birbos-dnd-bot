@@ -1,8 +1,8 @@
 
 import { MessageFlags } from "discord.js";
-import { DM_USER_ID } from "../../../data/Globals.js";
 import { parseUserDateAndTime } from "../../../data/HelperFunctions.js";
 import { createSessionScheduleComponent } from "../../components/session-schedule/session_schedule_component.js";
+import { ATTENDANCE_CHANNEL_ID } from "../../../data/Globals.js";
 
 export default {
     customId: 'session_schedule_modal', 
@@ -13,7 +13,8 @@ export default {
         const campaignSelect = interaction.fields.getStringSelectValues('select_campaign_for_scheduling');
         const dateInput = interaction.fields.getTextInputValue('date_input');
         const timeInput = interaction.fields.getTextInputValue('time_input');
-        const selectedChannel = interaction.fields.getSelectedChannels('selected_schedule_channel').first();
+        const selectedChannel = await interaction.client.channels.fetch(ATTENDANCE_CHANNEL_ID);
+        const descriptionInput = interaction.fields.getTextInputValue('session_description_input');
 
         const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(timeInput);
         const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(dateInput);
@@ -25,7 +26,7 @@ export default {
             try {      
 
                 const scheduled_date_message = parseUserDateAndTime(dateInput, timeInput);
-                const component = createSessionScheduleComponent(campaignSelect, scheduled_date_message);
+                const component = createSessionScheduleComponent(campaignSelect, scheduled_date_message, descriptionInput);
 
                 await selectedChannel.send({
                     components: [component],
@@ -34,11 +35,15 @@ export default {
 
                 await interaction.editReply({
                     content: 'Message sent successfully!',
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
                 
             } catch (error) {
                 console.error("Modal submit error: ", error);
+                await interaction.editReply({
+                    content: '❌ Something went wrong. Please wait a moment and try again!',
+                    flags: MessageFlags.Ephemeral
+                });
             }
 
         } else {
