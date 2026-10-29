@@ -1,6 +1,6 @@
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } from "discord.js";
 
-export function createSessionRegistrationComponent(isCanceling, campaign, date){
+export function createSessionRegistrationComponent(isCanceling, campaign, date, charactersList, campaignId, unixDate){
     const sessionRegistrationComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
@@ -21,20 +21,6 @@ export function createSessionRegistrationComponent(isCanceling, campaign, date){
             .setDivider(true)
         )
 
-    // look up characters from db
-    const characters = [
-        {
-            name: "character 1",
-            desc: "this is the character",
-            value: "1"
-        },
-        {
-            name: "character 2",
-            desc: "this is the character",
-            value: "2"
-        }
-    ]
-
     // if canceling
     if (isCanceling){
         sessionRegistrationComponent.addTextDisplayComponents(
@@ -49,16 +35,16 @@ export function createSessionRegistrationComponent(isCanceling, campaign, date){
     }
 
     const options = []
-        for (const char of characters){
+        for (const char of charactersList){
             const op = new StringSelectMenuOptionBuilder()
-                .setLabel(char.name)
-                .setDescription(char.desc)
-                .setValue(char.value)
+                .setLabel(char.character_name)
+                .setDescription(char.character_backstory.slice(0,100))
+                .setValue(String(char.id))
             
             options.push(op)
         }
     const dropdown = new StringSelectMenuBuilder()
-        .setCustomId('session_reg_character_dropdown')
+        .setCustomId(`session_reg_character_dropdown:${isCanceling}${campaignId}:${unixDate}`)
         .setPlaceholder('Select a character...')
         .addOptions(options)
 

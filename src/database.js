@@ -16,11 +16,11 @@ db.pragma("journal_mode = WAL");
 db.prepare(`
     CREATE TABLE IF NOT EXISTS campaigns (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
     image_url TEXT,
     created_at INTEGER,
-    created_by INTEGER NOT NULL,
     is_active INTEGER DEFAULT 1
     )
 `).run();
@@ -69,9 +69,9 @@ db.prepare(`CREATE TABLE IF NOT EXISTS np_characters (
 db.prepare(`CREATE TABLE IF NOT EXISTS sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     campaign_id INTEGER NOT NULL,
-    attending_character TEXT,
-    session_number INTEGER NOT NULL,
+    attending_character_id TEXT,
+    character_user_id INTEGER NOT NULL,
     unix_date_time INTEGER NOT NULL,
-    FOREIGN KEY (campaign_id) REFERENCES events(id)
+    FOREIGN KEY (campaign_id) REFERENCES campaigns(id)
     )
 `).run();

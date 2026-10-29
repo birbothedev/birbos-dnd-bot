@@ -1,6 +1,7 @@
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder } from "discord.js";
 
-export function createSessionScheduleComponent(campaign, date, description){
+export function createSessionScheduleComponent(campaign, date, description, campaignId, unixDate){
+    const descriptionText = (description.length > 0) ? description : "No session description given."
     const sessionScheduleComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
@@ -17,7 +18,7 @@ export function createSessionScheduleComponent(campaign, date, description){
         )
         .addTextDisplayComponents(
             new TextDisplayBuilder()
-                .setContent(`${description}`)
+                .setContent(`${descriptionText}`)
         )
         .addSeparatorComponents(
             new SeparatorBuilder()
@@ -34,7 +35,7 @@ export function createSessionScheduleComponent(campaign, date, description){
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`session_signup_button`)
+                    .setCustomId(`session_signup_button:${campaignId}:${unixDate}`)
                     .setLabel('Sign Up')
                     .setStyle(ButtonStyle.Primary)
             )
@@ -53,7 +54,7 @@ export function createSessionScheduleComponent(campaign, date, description){
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`session_cancel_button`)
+                    .setCustomId(`session_cancel_button:${campaignId}:${unixDate}`)
                     .setLabel('Cancel')
                     .setStyle(ButtonStyle.Danger)
             )
@@ -67,13 +68,13 @@ export function createSessionScheduleComponent(campaign, date, description){
         new SectionBuilder()
             .addTextDisplayComponents(
                 new TextDisplayBuilder().setContent(
-                    `**👀 View**\nSee all characters that will be attending the session.`
+                    `**👀 View Attendees**\nSee all characters that will be attending the session.`
                 )
             )
             .setButtonAccessory(
                 new ButtonBuilder()
                     .setCustomId(`session_attendees_button`)
-                    .setLabel('View Characters')
+                    .setLabel('View')
                     .setStyle(ButtonStyle.Primary)
             )
     );

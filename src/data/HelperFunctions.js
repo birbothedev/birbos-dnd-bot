@@ -27,5 +27,5 @@ export function parseUserDateAndTime(date, time){
 
     const unixDate = Math.floor(jsDate.getTime() / 1000);
 
-    return `<t:${unixDate}:F>`;
+    return unixDate;
 }

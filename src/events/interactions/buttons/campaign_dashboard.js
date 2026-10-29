@@ -5,10 +5,11 @@ export default {
     customId: 'campaign_dashboard', 
     type: 'button',
     async execute(interaction) {
+        const userId = interaction.user.id;
 
         try {
             // reply with a new ephemeral menu here, then use interaction.update to change that ephemeral message client sided
-            const component = createDMDashboardComponent();
+            const component = createDMDashboardComponent(userId);
 
             await interaction.reply({
                 components: [component],

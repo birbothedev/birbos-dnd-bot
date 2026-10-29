@@ -1,6 +1,7 @@
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder } from "discord.js";
+import { calculate_stat_modifiers } from "../../../data/HelperFunctions.js";
 
-export function createCharacterSheetComponent(characterName, characterLevel, characterRace, characterClass, characterBackstory){
+export function createCharacterSheetComponent(characterId, characterName, characterLevel, characterRace, characterClass, characterBackstory, charSTR, charDEX, charCON, charINT, charWIS, charCHA, charHP, charAC, charSPEED, campaignName, campaignPremise){
     const characterSheetComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
@@ -22,7 +23,7 @@ export function createCharacterSheetComponent(characterName, characterLevel, cha
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`character_information_edit`)
+                    .setCustomId(`character_information_edit:${characterId}`)
                     .setLabel('Edit')
                     .setStyle(ButtonStyle.Secondary)
             )
@@ -37,13 +38,13 @@ export function createCharacterSheetComponent(characterName, characterLevel, cha
             .addTextDisplayComponents(
                 new TextDisplayBuilder().setContent(
                     "### Ability Scores\n\n" +
-                    "**STR** · 16 (+3)   **DEX** · 12 (+1)   **CON** · 15 (+2)\n" +
-                    "**INT** · 10 (+0)   **WIS** · 11 (+0)   **CHA** · 8 (-1)\n"
+                    `**STR** · ${charSTR} (${calculate_stat_modifiers(charSTR)})   **DEX** · ${charDEX} (${calculate_stat_modifiers(charDEX)})   **CON** · ${charCON} (${calculate_stat_modifiers(charCON)})\n` +
+                    `**INT** · ${charINT} (${calculate_stat_modifiers(charINT)})   **WIS** · ${charWIS} (${calculate_stat_modifiers(charWIS)})   **CHA** · ${charCHA} (${calculate_stat_modifiers(charCHA)})\n`
                 )
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`character_skills_edit`)
+                    .setCustomId(`character_skills_edit:${characterId}`)
                     .setLabel('Edit')
                     .setStyle(ButtonStyle.Secondary)
             )
@@ -58,12 +59,12 @@ export function createCharacterSheetComponent(characterName, characterLevel, cha
             .addTextDisplayComponents(
                 new TextDisplayBuilder().setContent(
                     "### Combat Scores\n\n" +
-                    "**HP**  · 50   **AC** · 18    **SPEED** · 40 ft."
+                    `**HP**  · ${charHP}   **AC** · ${charAC}    **SPEED** · ${charSPEED} ft.`
                 )
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`character_stats_edit`)
+                    .setCustomId(`character_stats_edit:${characterId}`)
                     .setLabel('Edit')
                     .setStyle(ButtonStyle.Secondary)
             )
@@ -83,11 +84,22 @@ export function createCharacterSheetComponent(characterName, characterLevel, cha
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`edit_character_backstory_button`)
+                    .setCustomId(`edit_character_backstory_button:${characterId}`)
                     .setLabel('Edit')
                     .setStyle(ButtonStyle.Secondary)
             )
     );
+
+    characterSheetComponent.addSeparatorComponents(
+        new SeparatorBuilder()
+    );
+
+    characterSheetComponent.addTextDisplayComponents(
+            new TextDisplayBuilder()
+                .setContent(`## Campaign: ${campaignName}\n\n`+
+                    `${campaignPremise}`
+                )
+        )
 
     characterSheetComponent.addSeparatorComponents(
         new SeparatorBuilder()

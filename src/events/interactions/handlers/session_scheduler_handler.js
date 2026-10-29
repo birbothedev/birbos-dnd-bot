@@ -3,14 +3,13 @@ import { MessageFlags } from "discord.js";
 import { parseUserDateAndTime } from "../../../data/HelperFunctions.js";
 import { createSessionScheduleComponent } from "../../components/session-schedule/session_schedule_component.js";
 import { ATTENDANCE_CHANNEL_ID } from "../../../data/Globals.js";
+import { getCampaignByCampaignID } from "../../../data/db-commands/campaign_db_commands.js";
 
 export default {
     customId: 'session_schedule_modal', 
     type: 'modal',
     async execute(interaction) {
-        const eventId = interaction.customId;
-        const userId = interaction.user.id;
-        const campaignSelect = interaction.fields.getStringSelectValues('select_campaign_for_scheduling');
+        const campaignId = interaction.fields.getStringSelectValues('select_campaign_for_scheduling');
         const dateInput = interaction.fields.getTextInputValue('date_input');
         const timeInput = interaction.fields.getTextInputValue('time_input');
         const selectedChannel = await interaction.client.channels.fetch(ATTENDANCE_CHANNEL_ID);
@@ -25,8 +24,11 @@ export default {
 
             try {      
 
-                const scheduled_date_message = parseUserDateAndTime(dateInput, timeInput);
-                const component = createSessionScheduleComponent(campaignSelect, scheduled_date_message, descriptionInput);
+                const unix_date = parseUserDateAndTime(dateInput, timeInput);
+                const scheduled_date_message = `<t:${unix_date}:F>`
+                const campaign = getCampaignByCampaignID(campaignId)
+                const component = createSessionScheduleComponent(campaign.name, scheduled_date_message, descriptionInput, campaignId, unix_date);
+                
 
                 await selectedChannel.send({
                     components: [component],

@@ -49,3 +49,14 @@ export function getCharacterByCharacterID(characterId, userId){
 
     return characters;
 }
+
+export function updateCharacterAbilityScoresInDB(characterId, userId, str, dex, con, int, wis, cha){
+    const row = db.prepare(`
+            UPDATE player_characters
+            SET strength = ?, dexterity = ?, constitution = ?,
+            intelligence = ?, wisdom = ?, charisma = ?
+            WHERE id = ? and user_id = ?
+        `).run(str, dex, con, int, wis, cha, characterId, userId);
+    
+    return row.changes;
+}

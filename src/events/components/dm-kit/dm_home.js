@@ -1,6 +1,8 @@
-import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder } from "discord.js";
+import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder, StringSelectMenuOptionBuilder, StringSelectMenuBuilder, ActionRowBuilder } from "discord.js";
+import { getCampaignsList } from "../../../data/db-commands/campaign_db_commands.js";
 
-export function createDMDashboardComponent(){
+export function createDMDashboardComponent(userId){
+    const campaigns = getCampaignsList(1, userId);
     const dMDashboardComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
@@ -51,58 +53,65 @@ export function createDMDashboardComponent(){
         new SeparatorBuilder()
     );
 
-    dMDashboardComponent.addSectionComponents(
-        new SectionBuilder()
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    `**✏️ Edit Campaigns**\nEdit a specific campaign or mark it as inactive.`
+    if(campaigns.length >= 1){
+
+        dMDashboardComponent.addSectionComponents(
+            new SectionBuilder()
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent(
+                        `**📅 Schedule**\nSchedule an upcoming session.`
+                    )
                 )
+                .setButtonAccessory(
+                    new ButtonBuilder()
+                        .setCustomId(`session_scheduler`)
+                        .setLabel('Schedule')
+                        .setStyle(ButtonStyle.Success)
+                )
+        );
+    } else {
+        dMDashboardComponent.addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+                '**📅 Schedule**\nPlease add an active campaign before attempting to schedule a session.'
             )
-            .setButtonAccessory(
-                new ButtonBuilder()
-                    .setCustomId(`edit_campaign_button`)
-                    .setLabel('Edit')
-                    .setStyle(ButtonStyle.Secondary)
-            )
-    );
+        );
+    }
 
     dMDashboardComponent.addSeparatorComponents(
         new SeparatorBuilder()
     );
 
-    dMDashboardComponent.addSectionComponents(
-        new SectionBuilder()
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    `**❌ Delete**\nPermanently remove a campaign from the database.`
-                )
+    if(campaigns.length >= 1){
+        const options = []
+        for (const char of campaigns){
+            const op = new StringSelectMenuOptionBuilder()
+                .setLabel(char.name)
+                .setValue(`${char.id}`)
+            
+            options.push(op)
+        }
+        const dropdown = new StringSelectMenuBuilder()
+            .setCustomId('edit_campaign_button_dropdown')
+            .setPlaceholder('Select a campaign...')
+            .addOptions(options)
+        
+        dMDashboardComponent.addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+                '**📝 Campaign Editor**\nView or Edit a specific campaign, mark it as inactive, or delete it from the database.'
             )
-            .setButtonAccessory(
-                new ButtonBuilder()
-                    .setCustomId(`delete_campaign_button`)
-                    .setLabel('Delete')
-                    .setStyle(ButtonStyle.Danger)
-            )
-    );
+        );
 
-    dMDashboardComponent.addSeparatorComponents(
-        new SeparatorBuilder()
-    );
-
-    dMDashboardComponent.addSectionComponents(
-        new SectionBuilder()
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    `**📅 Schedule**\nSchedule an upcoming session.`
-                )
+        dMDashboardComponent.addActionRowComponents(
+            new ActionRowBuilder()
+                .addComponents(dropdown)
+        );
+    } else {
+        dMDashboardComponent.addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+                '**📝 Campaign Editor**\nPlease add a campaign before attempting to edit a campaign.'
             )
-            .setButtonAccessory(
-                new ButtonBuilder()
-                    .setCustomId(`session_scheduler`)
-                    .setLabel('Schedule')
-                    .setStyle(ButtonStyle.Success)
-            )
-    );
+        );
+    }
 
     dMDashboardComponent.addSeparatorComponents(
         new SeparatorBuilder()

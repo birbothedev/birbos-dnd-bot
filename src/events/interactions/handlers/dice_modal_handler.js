@@ -61,7 +61,7 @@ export default {
 
                 await interaction.editReply({
                     content: '❌ Something went wrong. Please wait a moment and try again!',
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             }
 
