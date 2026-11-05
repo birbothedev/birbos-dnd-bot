@@ -1,6 +1,6 @@
 import { MessageFlags } from "discord.js";
 import { createSessionSchedulerModal } from "../../modals/SessionSchedulerModal.js";
-import { getCampaignsList } from "../../../data/db-commands/campaign_db_commands.js";
+import { getActiveCampaignsByUserID } from "../../../data/db-commands/campaign_db_commands.js";
 
 export default {
     customId: 'session_scheduler', 
@@ -8,7 +8,7 @@ export default {
     async execute(interaction) {
         const userId = interaction.user.id;
         try {
-            const activeCampaignsList = getCampaignsList(1, userId);
+            const activeCampaignsList = getActiveCampaignsByUserID(1, userId);
             if (activeCampaignsList.length > 0){
                 await interaction.showModal(createSessionSchedulerModal(activeCampaignsList));
             } else {

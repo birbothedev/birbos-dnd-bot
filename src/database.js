@@ -17,6 +17,7 @@ db.prepare(`
     CREATE TABLE IF NOT EXISTS campaigns (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
+    server_id INTEGER NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
     image_url TEXT,
@@ -28,11 +29,11 @@ db.prepare(`
 //table to store all player characters
 db.prepare(`CREATE TABLE IF NOT EXISTS player_characters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    campaign_id INTEGER NOT NULL,
+    campaign_id INTEGER,
     user_id TEXT NOT NULL,
     username TEXT NOT NULL,
     character_name TEXT NOT NULL,
-    character_level INTEGER,
+    character_level INTEGER NOT NULL,
     character_class TEXT NOT NULL,
     character_multiclass TEXT,
     character_race TEXT,

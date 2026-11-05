@@ -5,7 +5,7 @@ export function createAdventurerDashboardComponent(userId, isActive){
     const adventurerDashboardComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
-                .setContent(`## ⚔️ Adventurer's Toolkit\n\n` +
+                .setContent(`## ⚔️ Character's Toolkit\n\n` +
                     `Welcome! Choose an option below.`)
         )
         .addSeparatorComponents(

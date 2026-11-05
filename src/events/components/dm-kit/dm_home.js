@@ -1,8 +1,8 @@
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder, StringSelectMenuOptionBuilder, StringSelectMenuBuilder, ActionRowBuilder } from "discord.js";
-import { getCampaignsList } from "../../../data/db-commands/campaign_db_commands.js";
+import { getCampaignsInServerList } from "../../../data/db-commands/campaign_db_commands.js";
 
-export function createDMDashboardComponent(userId){
-    const campaigns = getCampaignsList(1, userId);
+export function createDMDashboardComponent(serverId){
+    const campaigns = getCampaignsInServerList(1, serverId);
     const dMDashboardComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()

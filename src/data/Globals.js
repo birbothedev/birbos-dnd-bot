@@ -6,4 +6,4 @@ export const ALLOWED_ROLE_ID = process.env.MODERATOR_ROLE_ID;
 export const WELCOME_CHANNEL_ID = process.env.WELCOME_CHANNEL_ID;
 export const ATTENDANCE_CHANNEL_ID = process.env.ATTENDANCE_CHANNEL_ID;
 
-export const ACCENT_COLOR = '#750D02'
+export const ACCENT_COLOR = 0x750D02

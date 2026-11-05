@@ -17,18 +17,27 @@ export function createViewCharactersComponent(activeCharacters, inactiveCharacte
     for (const char of activeCharacters){
         activeCharactersText += `**${char.character_name}**: Level ${char.character_level} ${char.character_race} ${char.character_class}\n`
     };
-    viewCharactersComponent.addSectionComponents(
-        new SectionBuilder()
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(activeCharactersText)
+    if (activeCharacters.length <= 0){
+        viewCharactersComponent.addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+                `### Active Characters\n\nNo active characters to display. Add one by clicking "Add" in the Adventurer's Toolkit.`
             )
-            .setButtonAccessory(
-                new ButtonBuilder()
-                    .setCustomId(`disable_active_characters`)
-                    .setLabel('Edit')
-                    .setStyle(ButtonStyle.Secondary)
-            )
-    );
+        );
+    } else {
+        viewCharactersComponent.addSectionComponents(
+            new SectionBuilder()
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent(activeCharactersText)
+                )
+                .setButtonAccessory(
+                    new ButtonBuilder()
+                        .setCustomId(`disable_active_characters`)
+                        .setLabel('Edit')
+                        .setStyle(ButtonStyle.Secondary)
+                )
+        );
+    }
+    
 
     viewCharactersComponent.addSeparatorComponents(
         new SeparatorBuilder()
@@ -38,19 +47,26 @@ export function createViewCharactersComponent(activeCharacters, inactiveCharacte
     for (const char of inactiveCharacters){
         inActiveCharactersText += `**${char.character_name}**: Level ${char.character_level} ${char.character_race} ${char.character_class}\n`
     };
-
-    viewCharactersComponent.addSectionComponents(
-        new SectionBuilder()
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(inActiveCharactersText)
+    if (inactiveCharacters.length <= 0){
+        viewCharactersComponent.addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+                `### Inactive Characters\n\nNo inactive characters to display. Add one by clicking "Add" in the Adventurer's Toolkit and then edit to mark them as inactive.`
             )
-            .setButtonAccessory(
-                new ButtonBuilder()
-                    .setCustomId(`reactivate_inactive_characters`)
-                    .setLabel('Edit')
-                    .setStyle(ButtonStyle.Secondary)
-            )
-    );
+        );
+    } else {
+        viewCharactersComponent.addSectionComponents(
+            new SectionBuilder()
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent(activeCharactersText)
+                )
+                .setButtonAccessory(
+                    new ButtonBuilder()
+                        .setCustomId(`disable_active_characters`)
+                        .setLabel('Edit')
+                        .setStyle(ButtonStyle.Secondary)
+                )
+        );
+    }
 
     viewCharactersComponent.addSeparatorComponents(
         new SeparatorBuilder()

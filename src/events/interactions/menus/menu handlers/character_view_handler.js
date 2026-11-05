@@ -4,6 +4,7 @@ import { createCharacterSheetComponent } from "../../../components/adventurer-ki
 import { createDeleteButton } from "../../../../helpers/delete_character.js"
 import { createCharacterDiceRollerButton } from "../../../../helpers/character_dice_roll_button.js";
 import { getCampaignByCampaignID } from "../../../../data/db-commands/campaign_db_commands.js";
+import { createBackButton } from "../../../../helpers/creat_back_button.js";
 
 export default {
     customId: 'character_sheet_dropdown', 
@@ -46,12 +47,13 @@ export default {
                 const campaignId = selectedCharacter.campaign_id;
                 const campaign = getCampaignByCampaignID(campaignId);
 
+                const name = campaign ? campaign.name : "";
+                const description = campaign ? campaign.description : "Character not a part of any campaigns. Edit to add a campaign.";
 
-                const component = createCharacterSheetComponent(characterId, characterName, characterLevel, characterRace, characterClass, characterBackstory, charSTR, charDEX, charCON, charINT, charWIS, charCHA, charHP, charAC, charSPEED, campaign.name, campaign.description);
-                const row = new ActionRowBuilder()
-                    .addComponents(createDeleteButton(characterId), createCharacterDiceRollerButton(characterId));
+                const pageId = 2;
 
-                component.addActionRowComponents(row);
+
+                const component = createCharacterSheetComponent(characterId, characterName, characterLevel, characterRace, characterClass, characterBackstory, charSTR, charDEX, charCON, charINT, charWIS, charCHA, charHP, charAC, charSPEED, name, description);
 
                 await interaction.update({
                     components: [component],

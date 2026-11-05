@@ -40,12 +40,12 @@ export function createDiceRollerModal(){
     const selectDiceQuantityMenu = new TextInputBuilder()
         .setCustomId('dice_quantity_input')
         .setStyle(TextInputStyle.Short)
-        .setPlaceholder('Enter the quantity of dice to roll.')
+        .setPlaceholder('Quantity 1-100.')
         .setMaxLength(3)
         .setMinLength(1)
         .setRequired(true);
     const selectDiceQuantityMenuLabel = new LabelBuilder()
-        .setLabel("Quantity")
+        .setLabel("Quantity of Dice to Roll")
         .setTextInputComponent(selectDiceQuantityMenu);
 
     const selectPrivacyLabel = new LabelBuilder()

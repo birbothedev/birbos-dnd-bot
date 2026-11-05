@@ -17,7 +17,7 @@ export function createCharacterSheetComponent(characterId, characterName, charac
         new SectionBuilder()
             .addTextDisplayComponents(
                 new TextDisplayBuilder().setContent(
-                    `**${characterName} • Level ${characterLevel}**\n` +
+                    `### ${characterName} • Level ${characterLevel}\n` +
                     `${characterRace} • ${characterClass}`
                 )
             )
@@ -44,7 +44,7 @@ export function createCharacterSheetComponent(characterId, characterName, charac
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`character_skills_edit:${characterId}`)
+                    .setCustomId(`character_ability_scores_edit:${characterId}`)
                     .setLabel('Edit')
                     .setStyle(ButtonStyle.Secondary)
             )
@@ -64,7 +64,7 @@ export function createCharacterSheetComponent(characterId, characterName, charac
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`character_stats_edit:${characterId}`)
+                    .setCustomId(`character_combat_stats_edit:${characterId}`)
                     .setLabel('Edit')
                     .setStyle(ButtonStyle.Secondary)
             )
@@ -93,13 +93,23 @@ export function createCharacterSheetComponent(characterId, characterName, charac
     characterSheetComponent.addSeparatorComponents(
         new SeparatorBuilder()
     );
-
-    characterSheetComponent.addTextDisplayComponents(
-            new TextDisplayBuilder()
-                .setContent(`## Campaign: ${campaignName}\n\n`+
+    
+    characterSheetComponent.addSectionComponents(
+        new SectionBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent(
+                    `### Campaign\n\n` +
+                    `${campaignName}\n`+
                     `${campaignPremise}`
                 )
-        )
+            )
+            .setButtonAccessory(
+                new ButtonBuilder()
+                    .setCustomId(`edit_character_campaign_button:${characterId}`)
+                    .setLabel('Edit')
+                    .setStyle(ButtonStyle.Secondary)
+            )
+    );
 
     characterSheetComponent.addSeparatorComponents(
         new SeparatorBuilder()

@@ -1,7 +1,7 @@
 import { ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
-import { getCampaignsList } from "../../data/db-commands/campaign_db_commands.js";
+import { getCampaignsInServerList } from "../../data/db-commands/campaign_db_commands.js";
 
-export function createCharacterModal(){
+export function createCharacterModal(serverId){
     const addAdventurerModal = new ModalBuilder()
         .setCustomId(`add_character_modal`)
         .setTitle('⚔️ Add Your Character');
@@ -19,26 +19,44 @@ export function createCharacterModal(){
         .setTextInputComponent(characterName);
     
     // get active campaigns
-    const campaignsList = getCampaignsList(1);
+    // const campaignsList = getCampaignsInServerList(1, serverId);
+
+    // const options = []
+    //     for (const campaign of campaignsList){
+    //         const camp = new StringSelectMenuOptionBuilder()
+    //             .setLabel(campaign.name)
+    //             .setValue(String(campaign.id));
+            
+    //         options.push(camp);
+    //     }
+    
+    // // select campaign field
+    // const selectCampaginMenu = new StringSelectMenuBuilder()
+    // .setCustomId('character_campaign_input')
+    // .setPlaceholder('Select your campaign.')
+    // .addOptions(options);
+    // const selectCampaginMenuLabel = new LabelBuilder()
+    // .setLabel('Campaign')
+    // .setDescription(`Select the campaign your character is a part of.`)
+    // .setStringSelectMenuComponent(selectCampaginMenu);
 
     const options = []
-        for (const campaign of campaignsList){
-            const camp = new StringSelectMenuOptionBuilder()
-                .setLabel(campaign.name)
-                .setValue(String(campaign.id));
+        for (let i = 0; i < 21; i++){
+            const op = new StringSelectMenuOptionBuilder()
+                .setLabel(`${i}`)
+                .setValue(`${i}`)
             
-            options.push(camp);
+            options.push(op);
         }
-    
-    // select campaign field
-    const selectCampaginMenu = new StringSelectMenuBuilder()
-    .setCustomId('character_campaign_input')
-    .setPlaceholder('Select your campaign.')
-    .addOptions(options);
-    const selectCampaginMenuLabel = new LabelBuilder()
-    .setLabel('Campaign')
-    .setDescription(`Select the campaign your character is a part of.`)
-    .setStringSelectMenuComponent(selectCampaginMenu);
+
+    const selectLevelMenu = new StringSelectMenuBuilder()
+        .setCustomId('character_level_input')
+        .setPlaceholder('Select...')
+        .addOptions(options);
+    const selectLevelMenuLabel = new LabelBuilder()
+        .setLabel('Total Level')
+        .setDescription(`Add your character's total level.`)
+        .setStringSelectMenuComponent(selectLevelMenu);
 
     // select class field
     const selectClassMenu = new StringSelectMenuBuilder()
@@ -100,7 +118,7 @@ export function createCharacterModal(){
         .setLabel("Add a Backstory")
         .setTextInputComponent(characterBackstoryInput);
 
-    addAdventurerModal.addLabelComponents(characterNameLabel, selectCampaginMenuLabel, raceInputLabel, selectClassMenuLabel, characterBackstoryInputLabel);
+    addAdventurerModal.addLabelComponents(characterNameLabel, selectLevelMenuLabel, raceInputLabel, selectClassMenuLabel, characterBackstoryInputLabel);
 
     return addAdventurerModal;
 }

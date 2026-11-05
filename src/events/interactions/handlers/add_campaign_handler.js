@@ -9,12 +9,13 @@ export default {
         const nameInput = interaction.fields.getTextInputValue('campaign_name_input');
         const premiseInput = interaction.fields.getTextInputValue('campaign_premise_input');
         const dateCreated = Date.now();
+        const serverId = interaction.guild.id;
 
             try {      
 
-                await addCampaignToDB(nameInput,premiseInput,dateCreated,userId);
+                await addCampaignToDB(nameInput,premiseInput,dateCreated,userId, serverId);
 
-                const confirmationMessage = `✅ Successfully added ${nameInput} to the database!`
+                const confirmationMessage = `✅ Successfully added **${nameInput}** to the database!`
 
                 await interaction.update({
                     components: [
