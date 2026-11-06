@@ -44,7 +44,7 @@ export function getCharacterByCharacterID(characterId, userId){
     const characters = db.prepare(`
         SELECT *
         FROM player_characters
-        WHERE id = ? and user_id = ?
+        WHERE id = ? and CAST(user_id AS INTEGER) = ?
     `).get(characterId, userId);
 
     return characters;

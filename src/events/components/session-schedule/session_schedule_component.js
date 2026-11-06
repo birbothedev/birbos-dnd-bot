@@ -1,11 +1,11 @@
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder } from "discord.js";
 
-export function createSessionScheduleComponent(campaign, date, description, campaignId, unixDate){
-    const descriptionText = (description.length > 0) ? description : "No session description given."
+export function createSessionScheduleComponent(campaign, date, description, campaignId, unixDate, sessionId, signUpText){
+    const descriptionText = description ? description : "No session description given."
     const sessionScheduleComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
-                .setContent('## 🗓️ Session Registration')
+                .setContent('## 🗓️ Session Attendance')
         )
         .addSeparatorComponents(
             new SeparatorBuilder()
@@ -35,7 +35,7 @@ export function createSessionScheduleComponent(campaign, date, description, camp
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`session_signup_button:${campaignId}:${unixDate}`)
+                    .setCustomId(`session_signup_button:${campaignId}:${unixDate}:${sessionId}`)
                     .setLabel('Sign Up')
                     .setStyle(ButtonStyle.Primary)
             )
@@ -54,7 +54,7 @@ export function createSessionScheduleComponent(campaign, date, description, camp
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setCustomId(`session_cancel_button:${campaignId}:${unixDate}`)
+                    .setCustomId(`session_cancel_button:${campaignId}:${unixDate}:${sessionId}`)
                     .setLabel('Cancel')
                     .setStyle(ButtonStyle.Danger)
             )
@@ -64,18 +64,11 @@ export function createSessionScheduleComponent(campaign, date, description, camp
         new SeparatorBuilder()
     );
 
-    sessionScheduleComponent.addSectionComponents(
-        new SectionBuilder()
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    `**👀 View Attendees**\nSee all characters that will be attending the session.`
-                )
-            )
-            .setButtonAccessory(
-                new ButtonBuilder()
-                    .setCustomId(`session_attendees_button`)
-                    .setLabel('View')
-                    .setStyle(ButtonStyle.Primary)
+    const signUpsMessage = !signUpText ? `### 👀 Current Attendees\n\nNo characters currently attending the session.` : `${signUpText}`
+
+    sessionScheduleComponent.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+                signUpsMessage
             )
     );
 

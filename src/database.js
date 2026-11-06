@@ -9,7 +9,7 @@ export const db = new Database(
     path.resolve(__dirname, "..", "databases", "campaigns-database.sqlite")
 );
 
-// WAL = write ahead logging, writes go into a separate file and are merged into the DB later (safer and prevents reads from blocking writes)
+// write ahead logging, writes go into a separate file and are merged into the DB later (safer and prevents reads from blocking writes)
 db.pragma("journal_mode = WAL");
 
 //table to store all campaigns
@@ -66,13 +66,27 @@ db.prepare(`CREATE TABLE IF NOT EXISTS np_characters (
     )
 `).run();
 
-// table to store all sessions
-db.prepare(`CREATE TABLE IF NOT EXISTS sessions (
+// table to store all session attendees
+db.prepare(`CREATE TABLE IF NOT EXISTS session_attendees (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    campaign_id INTEGER NOT NULL,
-    attending_character_id TEXT,
+    session_id INTEGER NOT NULL,
+    attending_character_id INTEGER,
     character_user_id INTEGER NOT NULL,
     unix_date_time INTEGER NOT NULL,
+    FOREIGN KEY (session_id) REFERENCES session_scheduler(id)
+    )
+`).run();
+
+// table to store all scheduled sessions
+db.prepare(`CREATE TABLE IF NOT EXISTS session_scheduler (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    campaign_id INTEGER NOT NULL,
+    dm_id INTEGER NOT NULL,
+    unix_date_time INTEGER NOT NULL,
+    allowed_role_id INTEGER NOT NULL,
+    session_description TEXT,
+    scheduler_message_channel_id INTEGER,
+    scheduler_message_id INTEGER,
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id)
     )
 `).run();

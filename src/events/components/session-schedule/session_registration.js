@@ -1,10 +1,10 @@
 import { ContainerBuilder, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, SectionBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } from "discord.js";
 
-export function createSessionRegistrationComponent(isCanceling, campaign, date, charactersList, campaignId, unixDate){
+export function createSessionRegistrationComponent(isCanceling, campaign, date, charactersList, unixDate, sessionId, campaignId){
     const sessionRegistrationComponent = new ContainerBuilder()
         .addTextDisplayComponents(
             new TextDisplayBuilder()
-                .setContent('## 🗓️ Session Registration')
+                .setContent('## 🗓️ Session Attendance')
         )
         .addSeparatorComponents(
             new SeparatorBuilder()
@@ -44,7 +44,7 @@ export function createSessionRegistrationComponent(isCanceling, campaign, date, 
             options.push(op)
         }
     const dropdown = new StringSelectMenuBuilder()
-        .setCustomId(`session_reg_character_dropdown:${isCanceling}${campaignId}:${unixDate}`)
+        .setCustomId(`session_reg_character_dropdown:${isCanceling}:${sessionId}:${unixDate}:${campaignId}`)
         .setPlaceholder('Select a character...')
         .addOptions(options)
 

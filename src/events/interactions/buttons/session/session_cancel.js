@@ -11,42 +11,48 @@ export default {
         const userId = interaction.user.id;
         const campaignId = interaction.customId.split(`:`)[1];
         const date = interaction.customId.split(`:`)[2];
+        const sessionId = interaction.customId.split(':')[3];
 
-        //TODO add checks to make sure user not already signed up
+        const date_formatted = `<t:${date}:F>`
+
+        await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
         try {
             const charactersList = getActiveCharactersByUserID(userId, 1);
             const campaign = getCampaignByCampaignID(campaignId);
-            const component = createSessionRegistrationComponent(true, campaign.name, date, charactersList);
-            const findCurrentSignup = getCurrentSignUpByUserID(userId, campaignId, date);
+            
+            const findCurrentSignup = getCurrentSignUpByUserID(userId, sessionId, date);
 
-            if (findCurrentSignup <= 0){
-                await interaction.reply({
+            if (findCurrentSignup.length <= 0){
+                return await interaction.editReply({
                     components: [
                         new TextDisplayBuilder()
                             .setContent('❌ You are not signed up for this session.')
                     ],
                     flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral]
                 });
-            }
+            } 
 
-            if (charactersList >= 1){
-                await interaction.reply({
-                    components: [component],
-                    flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral]
-                });
-            } else {
-                await interaction.reply({
+            if (charactersList.length < 1){
+                return await interaction.editReply({
                     components: [
                         new TextDisplayBuilder()
                             .setContent('❌ Please add a character before attempting to cancel your attendance for this session!')
                     ],
                     flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral]
                 });
-            }
+            } 
+
+            const component = createSessionRegistrationComponent(true, campaign.name, date_formatted, charactersList, date, sessionId, campaignId);
+
+            await interaction.editReply({
+                components: [component],
+                flags: [MessageFlags.IsComponentsV2]
+            });
 
         } catch (err) {
             console.error('Error:', err);
-            await interaction.reply({
+            await interaction.editReply({
                 content: '❌ Something went wrong. Please wait a moment and try again!',
                 flags: MessageFlags.Ephemeral
             });
